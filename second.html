@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: auto;
+            justify-content: center;
+            text-align: center;
+	font-size: 20px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(158, 198, 243);
+}
+.question{
+	font-weight: 600;
+}
+.answers {
+    display: block;
+    margin-bottom: 20px;
+}
+#submit{
+	font-family: sans-serif;
+	font-size: 20px;
+	background-color:rgb(36, 105, 151);
+	color: #fff;
+	border: 0px;
+	border-radius: 3px;
+	padding: 20px;
+	cursor: pointer;
+	margin-bottom: 20px;
+}
+#submit:hover{
+	background-color: rgb(9, 60, 83);
+}
+    </style>
+</head>
+<body>
+    <div id="quiz"></div>
+    <button id="submit">Get Results</button>
+    <div id="results"></div> 
+    <script>
+        var quizContainer = document.getElementById('quiz');
+var resultsContainer = document.getElementById('results');
+var submitButton = document.getElementById('submit');
+var myQuestions = [
+	{
+		question: "Do u like sweets?",
+		answers: {
+			a: 'Yes',
+			b: 'No',
+		},
+		correctAnswer: 'a',
+        nocorrect:'b'
+	},
+	{
+		question: "Do u like animals?",
+		answers: {
+			a: 'Yes',
+			b: 'No',
+		},
+		correctAnswer: 'a',
+        nocorrect:'b'
+	},
+    {
+		question: "Do u like choclate?",
+		answers: {
+			a: 'Yes',
+			b: 'No',
+		},
+		correctAnswer: 'a',
+        nocorrect:'b'
+	},
+    {
+		question: "Do u like sports?",
+		answers: {
+			a: 'Yes',
+			b: 'No',
+		},
+		correctAnswer: 'a',
+        nocorrect:'b'
+	},
+    {
+		question: "Do u like car?",
+		answers: {
+			a: 'Yes',
+			b: 'No',
+		},
+		correctAnswer: 'a',
+        nocorrect:'b'
+	},
+];
+function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
+    function showQuestions(questions, quizContainer){
+	var output = [];
+	var answers;
+	for(var i=0; i<questions.length; i++){
+		answers = [];
+		for(letter in questions[i].answers){
+			answers.push(
+				'<label>'
+					+ '<input type="radio" name="question'+i+'" value="'+letter+'">'
+					+ letter + ': '
+					+ questions[i].answers[letter]
+				+ '</label>'
+			);
+		}
+		output.push(
+			'<div class="question">' + questions[i].question + '</div>'
+			+ '<div class="answers">' + answers.join('') + '</div>'
+		);
+	}
+	quizContainer.innerHTML = output.join('');
+    }
+    showQuestions(questions, quizContainer);
+    function showResults(questions, quizContainer, resultsContainer){
+	var answerContainers = quizContainer.querySelectorAll('.answers');
+	var userAnswer = '';
+	var numCorrect = 0;
+    var ncorrect=0;
+	for(var i=0; i<questions.length; i++){
+		userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||{}).value;
+
+		if(userAnswer===questions[i].correctAnswer){
+			numCorrect++;
+		}
+		else{
+            ncorrect++;
+
+		}
+	}
+    if(ncorrect>=3){
+        resultsContainer.innerHTML ='Sad';
+    }
+    else{
+        resultsContainer.innerHTML ='happy';
+    }
+}
+submitButton.onclick = function(){
+	showResults(questions, quizContainer, resultsContainer);
+}
+}
+
+
+generateQuiz(myQuestions, quizContainer, resultsContainer, submitButton);
+    </script>
+</body>
+</html>
